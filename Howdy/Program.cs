@@ -1,15 +1,12 @@
+using Howdy;
 using Howdy.Hubs;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-//app.MapGet("/", () => "Hello World!");
-
 app.Run();
-
-
-
-builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 options.AddDefaultPolicy(builder =>
@@ -20,6 +17,9 @@ options.AddDefaultPolicy(builder =>
     .AllowCredentials();
 }));
 
-app.UseCors("http://localhost:3000");
+builder.Services.AddSingleton<IDictionary<string, UserConnection>>(opts => new Dictionary<string, UserConnection>());
+
+builder.Services.AddSignalR();
+app.UseCors();
 app.UseRouting();
-app.MapHub<ChatHub>("/chat");
+app.MapHub<ChatHub>("/chat"); 
