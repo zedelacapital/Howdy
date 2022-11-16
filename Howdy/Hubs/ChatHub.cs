@@ -29,7 +29,7 @@ namespace Howdy.Hubs
 
             _connections[Context.ConnectionId] = userConnection;
             
-            await Clients.Group(userConnection.Room).SendAsync("RecieveMessage", _botUser, $"{userConnection.User} has joind {userConnection.Room}");
+            await Clients.Group(userConnection.Room).SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has joind {userConnection.Room}");
         }
     }
 }
